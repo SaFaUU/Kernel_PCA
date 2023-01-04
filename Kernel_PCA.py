@@ -11,7 +11,7 @@ dataset = pd.read_csv("Social_Network_Ads.csv")
 #Independent Variable Matrix/ Vector
 X = dataset.iloc[:,[2,3]].values
 
-#Making Dependent Variable Matrix/ Vector
+#Making Dependent Variable Matrix/ Vector 
 y= dataset.iloc[:, 4].values
 
 #Splitting the dataset into Training and Test set
@@ -23,6 +23,12 @@ from sklearn.preprocessing import StandardScaler
 sc_X = StandardScaler()
 X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
+
+#Applying Kernal PCA
+from sklearn.decomposition import KernelPCA
+kpca = KernelPCA(n_components = 2, kernel="rbf")
+X_train = kpca.fit_transform(X_train)
+X_test = kpca.transform(X_test)
 
 #Fitting Logistic Regression to the Training set
 from sklearn.linear_model import LogisticRegression
@@ -49,8 +55,8 @@ for i, j in enumerate(np.unique(y_set)):
     plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],
                 c = ListedColormap(('red', 'green'))(i), label = j)
 plt.title('Logistic Regression (Training set)')
-plt.xlabel('Age')
-plt.ylabel('Estimated Salary')
+plt.xlabel('PC1')
+plt.ylabel('PC2')
 plt.legend()
 plt.show()
 
@@ -67,7 +73,7 @@ for i, j in enumerate(np.unique(y_set)):
     plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],
                 c = ListedColormap(('red', 'green'))(i), label = j)
 plt.title('Logistic Regression (Test set)')
-plt.xlabel('Age')
-plt.ylabel('Estimated Salary')
+plt.xlabel('PC1')
+plt.ylabel('PC2')
 plt.legend()
 plt.show()
